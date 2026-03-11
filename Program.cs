@@ -11,6 +11,9 @@
             commonCount = 0;
             commonValue = 0;
 
+            string removeVeg, searchVeg;
+            int removeVegIndex;
+
             Random generator = new Random();
 
             List <int> ints = new List <int> (); 
@@ -24,20 +27,26 @@
 
             
 
-            string choice = "";
+            string intChoice = "";
+            string stringChoice = "";
             string program = "";
 
             while (program != "Q")
             {
+
+                Console.Clear();
                 Console.WriteLine("What program would you like to use");
 
                 Console.WriteLine("1 - List of Integers");
                 Console.WriteLine("2 - List of Strings");
+                Console.WriteLine("Q - Quit");
+
+                program = Console.ReadLine().ToUpper().Trim();
 
                 if (program == "1")
                 {
 
-                    while (choice != "Q")
+                    while (intChoice != "Q")
                     {
                         Console.WriteLine("Your numbers are: ");
 
@@ -57,15 +66,14 @@
                         Console.WriteLine("6 - Print Largest Value");
                         Console.WriteLine("7 - Print Smallest Value");
                         Console.WriteLine("8 - Print Sum and Average");
-                        Console.WriteLine("9 - Print Most Common Value");
                         Console.WriteLine("Q - Quit");
 
 
 
-                        choice = Console.ReadLine().ToUpper().Trim();
+                        intChoice = Console.ReadLine().ToUpper().Trim();
 
 
-                        if (choice == "1")
+                        if (intChoice == "1")
                         {
                             Console.Clear();
                             ints.Sort();
@@ -83,7 +91,7 @@
 
                         }
 
-                        else if (choice == "2")
+                        else if (intChoice == "2")
                         {
                             Console.Clear();
                             ints.Clear();
@@ -105,29 +113,40 @@
                             Console.Clear();
                         }
 
-                        else if (choice == "3")
+                        else if (intChoice == "3")
                         {
                             Console.Clear();
                             Console.WriteLine("Please enter a number you would like to remove");
-                            while (!Int32.TryParse(Console.ReadLine(), out removeValue) || removeValue > 20 || removeValue < 10)
+                            while (!Int32.TryParse(Console.ReadLine(), out removeValue))
                             {
-                                Console.WriteLine("Invalid input! Please enter a valid integer between 10 and 20");
+                                Console.WriteLine("Invalid input! Please enter a valid integer");
                             }
 
-                            for (int i = 0; i < ints.Count; i++)
+                            if (ints.Contains(removeValue))
                             {
-                                if (ints[i] == removeValue)
+
+                                for (int i = 0; i < ints.Count; i++)
                                 {
-                                    ints.RemoveAt(i);
-                                    i--;
+                                    if (ints[i] == removeValue)
+                                    {
+                                        ints.RemoveAt(i);
+                                        i--;
+                                    }
                                 }
+
+
+                                Console.WriteLine($"{removeValue} has been removed. Here is your updated list:");
+
+                                foreach (int i in ints)
+                                {
+                                    Console.Write(i + ", ");
+                                }
+
                             }
 
-                            Console.WriteLine($"{removeValue} has been removed. Here is your updated list:");
-
-                            foreach (int i in ints)
+                            else
                             {
-                                Console.Write(i + ", ");
+                                Console.WriteLine($"The list does not contain the number {removeValue}");
                             }
 
                             Console.WriteLine();
@@ -137,7 +156,7 @@
 
                         }
 
-                        else if (choice == "4")
+                        else if (intChoice == "4")
                         {
                             Console.Clear();
                             Console.WriteLine("Please enter a number you would like to add");
@@ -155,7 +174,7 @@
 
                         }
 
-                        else if (choice == "5")
+                        else if (intChoice == "5")
                         {
                             Console.Clear();
                             Console.WriteLine("Please enter a number you would like to count");
@@ -181,7 +200,7 @@
                             Console.Clear();
                         }
 
-                        else if (choice == "6")
+                        else if (intChoice == "6")
                         {
                             Console.Clear();
                             maxValue = ints.Max();
@@ -194,7 +213,7 @@
                             Console.Clear();
                         }
 
-                        else if (choice == "7")
+                        else if (intChoice == "7")
                         {
                             Console.Clear();
                             minValue = ints.Min();
@@ -208,7 +227,7 @@
                         }
 
 
-                        else if (choice == "8")
+                        else if (intChoice == "8")
                         {
                             Console.Clear();
 
@@ -223,23 +242,192 @@
                             Console.Clear();
                         }
 
-                        else if (choice == "9")
+                        else if (intChoice == "Q")
                         {
-                            
-                            foreach (int i in ints)
+                            Console.WriteLine();
+                        }
+
+                        else
+                        {
+                            Console.WriteLine("Invalid Input");
+                            Console.WriteLine();
+                        }
+
+
+                    }
+                }
+
+
+                else if (program == "2")
+                {
+                    List<string> vegetables = new List<string>() { "CARROT", "BROCCOLI", "CUCUMBER", "PEPPER", "CABBAGE" };
+
+
+                    Console.Clear();
+
+                    while (stringChoice != "Q")
+                    {
+                        Console.WriteLine("Vegetables");
+                        Console.WriteLine();
+                        for (int i = 0; i < vegetables.Count; i++)
+                        {
+                            Console.WriteLine((i + 1) + " - " + vegetables[i]);
+                        }
+                        Console.WriteLine();
+                        Console.WriteLine("Please select one of the following options:");
+                        Console.WriteLine("1 - Remove Vegetable By Index");
+                        Console.WriteLine("2 - Remove Vegetable By Value");
+                        Console.WriteLine("3 - Search For Vegetable");
+                        Console.WriteLine("4 - Add Vegetable");
+                        Console.WriteLine("5 - Sort List");
+                        Console.WriteLine("6 - Clear List");
+                        Console.WriteLine("Q - Quit");
+                        Console.WriteLine();
+
+                        stringChoice = Console.ReadLine().ToUpper().Trim();
+
+                        if (stringChoice == "1")
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Please enter the index of the vegetable you'd like to remove");
+
+                            while (!Int32.TryParse(Console.ReadLine(), out removeVegIndex) || removeVegIndex > vegetables.Count - 1 || removeVegIndex < 0)                          
                             {
-     
+                                Console.WriteLine("Invalid Input. Please ensure you entered an integral number less than the greatest index in the list");
                             }
 
-                            Console.WriteLine($"The most is {commonValue} with {commonCount} appearances");
+                            vegetables.Remove(vegetables[removeVegIndex]);
+
+                            Console.WriteLine("Vegetable Removed. Here is the updated list:");
+
+                            for (int i = 0; i < vegetables.Count; i++)
+                            {
+                                Console.WriteLine((i + 1) + " - " + vegetables[i]);
+                            }
 
                             Console.WriteLine();
                             Console.WriteLine("Press ENTER to return to menu");
                             Console.ReadLine();
                             Console.Clear();
                         }
+
+                        if (stringChoice == "2")
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Please enter the name of the vegetable you'd like to remove");
+
+                            removeVeg = Console.ReadLine().ToUpper().Trim();
+
+                            if (vegetables.Contains(removeVeg))
+                            {
+                                vegetables.Remove(removeVeg);
+                            }
+
+                            Console.WriteLine("Vegetable Removed. Here is the updated list:");
+
+                            for (int i = 0; i < vegetables.Count; i++)
+                            {
+                                Console.WriteLine((i + 1) + " - " + vegetables[i]);
+                            }
+
+                            Console.WriteLine();
+                            Console.WriteLine("Press ENTER to return to menu");
+                            Console.ReadLine();
+                            Console.Clear();
+
+                        }
+
+                        if (stringChoice == "3")
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Please enter the name of the vegetable you'd like to search for");
+
+                            searchVeg = Console.ReadLine().ToUpper().Trim();
+
+                            if (vegetables.Contains(searchVeg))
+                            {
+                                Console.WriteLine($"The index of {searchVeg} is {vegetables.IndexOf(searchVeg)}");
+                            }
+
+                            else
+                            {
+                                Console.WriteLine($" '{searchVeg}' does not appear in the list");
+                            }
+
+                            Console.WriteLine();
+                            Console.WriteLine("Press ENTER to return to menu");
+                            Console.ReadLine();
+                            Console.Clear();
+
+                        }
+
+                        if (stringChoice == "4")
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Please enter the name of the vegetable you'd like to add");
+
+                            vegetables.Add(Console.ReadLine().ToUpper().Trim());
+
+
+                            Console.WriteLine("Vegetable added. Here is the updated list:");
+
+                            for (int i = 0; i < vegetables.Count; i++)
+                            {
+                                Console.WriteLine((i + 1) + " - " + vegetables[i]);
+                            }
+
+                            Console.WriteLine();
+                            Console.WriteLine("Press ENTER to return to menu");
+                            Console.ReadLine();
+                            Console.Clear();
+                        }
+
+
+                        if (stringChoice == "5")
+                        {
+                            Console.Clear();
+
+                            vegetables.Sort();
+
+                            Console.WriteLine("List sorted. Here is the updated list:");
+
+                            for (int i = 0; i < vegetables.Count; i++)
+                            {
+                                Console.WriteLine((i + 1) + " - " + vegetables[i]);
+                            }
+
+                            Console.WriteLine();
+                            Console.WriteLine("Press ENTER to return to menu");
+                            Console.ReadLine();
+                            Console.Clear();
+                        }
+
+
+                        if (stringChoice == "6")
+                        {
+                            Console.Clear();
+
+                            vegetables.Clear();
+
+                            Console.WriteLine("List cleared");
+
+
+                            Console.WriteLine();
+                            Console.WriteLine("Press ENTER to return to menu");
+                            Console.ReadLine();
+                            Console.Clear();
+                        }
+
                     }
+
                 }
+
+                else if (program != "Q")
+                {
+                    Console.WriteLine("Invalid Input!");
+                }
+
+
             }
         }
     }
